@@ -1,15 +1,19 @@
 import React from "react";
-import snow from "../assets/images/icon-snow.webp";
 
-function HourlyForecast() {
-  // ✅ Sample hourly data (replace with API later)
-  const hours = [
-    { time: "3 PM", temp: 20 },
-    { time: "4 PM", temp: 19 },
-    { time: "5 PM", temp: 18 },
-    { time: "6 PM", temp: 17 },
-    { time: "7 PM", temp: 16 },
-  ];
+function HourlyForecast({forecast,temperatureUnit}) {
+
+// console.log(forecast)
+// Helper to convert 24-hour time to 12-hour with AM/PM
+function formatTime(dateTime) {
+  const [date, time] = dateTime.split(" "); // "2025-09-29", "14:30"
+    let hours=parseInt(time.split(":")[0],10);
+
+    const ampm=hours>=12?"PM":"AM";
+    hours=hours%12;
+    hours=hours?hours:12;
+
+    return `${hours} ${ampm}`;
+}
 
   return (
     <div className="bg-[#262540] text-white rounded-2xl p-4 w-full max-w-[364px]">
@@ -29,18 +33,17 @@ function HourlyForecast() {
       </div>
 
       {/* Forecast List */}
-      <div className="space-y-3">
-        {hours.map((item, index) => (
-          <div
-            key={index}
-            className="flex items-center justify-between bg-[#3C3B5E] rounded-lg px-4 py-3"
-          >
-            <div className="flex items-center gap-3">
-              <img src={snow} alt="weather icon" className="w-8 h-8" />
-              <h4 className="text-md">{item.time}</h4>
+      <div className="space-y-3 overflow-y-scroll  h-[600px]">
+      
+        {forecast.slice(0,15).map((hour)=>(
+         <div key={hour.time}
+         className="flex items-center justify-between  bg-[#3C3B5E] rounded-lg px-4 py-3">
+          <div className="flex items-center gap-3 ">
+              <img src={`https:${hour.condition.icon}`} alt="weather icon" className="w-8 h-8" />
+              <h4 className="text-md">{formatTime(hour.time)}</h4>
             </div>
-            <span className="text-lg font-medium">{item.temp}°</span>
-          </div>
+            <span className="text-lg font-medium">{temperatureUnit === "celsius" ? `${Math.round(hour.temp_c)}°C` :`${Math.round( hour.temp_f)}°F`}</span>
+         </div>
         ))}
       </div>
     </div>

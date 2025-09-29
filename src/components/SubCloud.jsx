@@ -1,29 +1,54 @@
-import React from 'react'
+import React from "react";
 
-function SubCloud() {
+function SubCloud({ weatherData, temperatureUnit, windUnit, precipUnit }) {
+  const current = weatherData.current;
+
   return (
-    <div className='flex   ml-75  right-44   '>
-    <div className='bg-[#3C3B5E] text-white w-[177px] flex flex-col rounded-2xl m-4 h-[118px]   p-4 '>
-      <span className='text-[#D4D3D9] w-[82px] h-[22px] m-2 '>Feels like</span>
-      <span className='text-left m-2 text-[24px]' >18°</span>
-      </div>
-      <div className='bg-[#3C3B5E] text-white w-[177px] flex flex-col m-4 rounded-2xl h-[118px]   p-4 '>
-      <span className='text-[#D4D3D9] w-[82px] h-[22px] m-2 '>Humidity</span>
-      <span className='text-left m-2 text-[24px]' >46%</span>
-    
-      </div>
-      <div className='bg-[#3C3B5E] text-white w-[177px] flex flex-col m-4 rounded-2xl h-[118px]   p-4 '>
-      <span className='text-[#D4D3D9] w-[82px] h-[22px] m-2 '>Wind</span>
-      <span className='text-left m-2 text-[24px]' >14 km/h</span>
-    
-      </div>
-      <div className='bg-[#3C3B5E] text-white w-[177px] flex flex-col m-4 rounded-2xl h-[118px]   p-4 '>
-      <span className='text-[#D4D3D9] w-[82px] h-[22px] m-2 '>Precipitation</span>
-      <span className='text-left m-2 text-[24px]' >0 mm</span>
-    
-      </div>
+    <div className="flex flex-wrap ml-75 mt-6">
+      {/* Feels Like */}
+      <Card
+        title="Feels like"
+        value={
+          temperatureUnit === "celsius"
+            ? `${Math.round(current.feelslike_c)}°C`
+            : `${Math.round(current.feelslike_f)}°F`
+        }
+      />
+
+      {/* Humidity */}
+      <Card title="Humidity" value={`${current.humidity}%`} />
+
+      {/* Wind */}
+      <Card
+        title="Wind"
+        value={
+          windUnit === "kmh"
+            ? `${current.wind_kph} km/h`
+            : `${current.wind_mph} mph`
+        }
+      />
+
+      {/* Precipitation */}
+      <Card
+        title="Precipitation"
+        value={
+          precipUnit === "mm"
+            ? `${current.precip_mm} mm`
+            : `${current.precip_in} in`
+        }
+      />
     </div>
-  )
+  );
 }
 
-export default SubCloud
+// Reusable card component
+function Card({ title, value }) {
+  return (
+    <div className="bg-[#3C3B5E] text-white w-[177px] flex flex-col m-4 rounded-2xl h-[118px] p-4 ">
+      <span className="text-[#D4D3D9]">{title}</span>
+      <span className="text-left text-[24px] mt-2">{value}</span>
+    </div>
+  );
+}
+
+export default SubCloud;
