@@ -10,10 +10,10 @@ function Header({ temperature, setTemperature, wind, setWind, precipitation, set
   const handleSwitchUnits = () => setToggleUnits(!toggleUnits);
  
   return (
-    <div className="flex justify-between max-w-[1250px] mx-auto  mt-[40px] gap-[860px]">
+    <div className="flex flex-wrap justify-between items-center max-w-[1500px] mx-auto mt-10 w-full  md:gap-10">
       <img src={logo} alt="weather-logo" className="w-[164px] h-[35px]" />
 
-      <div className="relative">
+      <div className="relative mt-4 md:mt-0">
         {/* Button */}
         <div
           className="flex items-center cursor-pointer w-[119px] gap-2 h-[43px] bg-[#262540] p-3 text-white rounded-md"
